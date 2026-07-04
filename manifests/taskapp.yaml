@@ -37,11 +37,31 @@ spec:
           ports:
             - containerPort: 5000
           env:
-            - name: DATABASE_URL
+            - name: DATABASE_HOST
               valueFrom:
                 secretKeyRef:
                   name: postgres-secret
-                  key: DATABASE_URL
+                  key: DATABASE_HOST
+            - name: DATABASE_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DATABASE_PORT
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DATABASE_NAME
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DATABASE_USER
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DATABASE_PASSWORD
 ---
 apiVersion: v1
 kind: Service
