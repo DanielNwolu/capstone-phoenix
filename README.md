@@ -192,3 +192,8 @@ Start by reading the K8s lesson, then open `STRUCTURE.md`.
 
 SUBMISSION LINK:
 https://docs.google.com/forms/d/e/1FAIpQLSdp-5Zfvt431gY8m2L_MOZ7NQ-8zN2L3jvkgL7P3yP7-pd94Q/viewform?usp=header
+
+## Live Deployment
+
+- **App URL:** https://taskapp.34.200.225.94.nip.io
+- **Argo CD:** port-forward `kubectl port-forward svc/argocd-server -n argocd 8080:443`, then https://localhost:8080
