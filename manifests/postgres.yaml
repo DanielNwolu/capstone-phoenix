@@ -6,6 +6,7 @@ metadata:
 type: Opaque
 stringData:
   POSTGRES_PASSWORD: "SuperSecurePassword123"
+  DATABASE_URL: "postgresql://taskuser:SuperSecurePassword123@postgres-service.taskapp.svc.cluster.local:5432/taskdb"
 ---
 apiVersion: v1
 kind: Service

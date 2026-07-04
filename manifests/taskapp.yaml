@@ -33,12 +33,15 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ghcr.io/ts-a-devops/taskapp-backend:26da2b0@sha256:05a9b78302a07d572f40814b659e7fe738c9dc87d6e1a01372cad8c42d7273d
+          image: ghcr.io/ts-a-devops/taskapp-backend:5d6b8fc
           ports:
             - containerPort: 5000
           env:
             - name: DATABASE_URL
-              value: "postgresql://taskapp:taskapp123@postgres-service.taskapp.svc.cluster.local:5432/taskdb"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DATABASE_URL
 ---
 apiVersion: v1
 kind: Service
@@ -75,6 +78,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ghcr.io/ts-a-devops/taskapp-frontend:26da2b0@sha256:05a9b78302a07d572f40814b659e7fe738c9dc87d6e1a01372cad8c42d7273d
+          image: ghcr.io/ts-a-devops/taskapp-frontend:26da2b0
           ports:
             - containerPort: 80
