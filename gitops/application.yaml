@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/ts-a-devops/capstone-phoenix.git'
+    repoURL: 'https://github.com/DanielNwolu/capstone-phoenix.git'
     targetRevision: HEAD
     path: manifests
   destination:
@@ -16,4 +16,5 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    createNamespace: true
+    syncOptions:
+      - CreateNamespace=true
