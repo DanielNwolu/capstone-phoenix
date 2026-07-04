@@ -108,3 +108,13 @@ kubectl logs -l job-name=backend-migrate -n taskapp --tail=50
 - **NetworkPolicy default-deny**: any new pod added to the `taskapp` namespace
   needs an explicit Ingress AND Egress allow rule in `manifests/advanced-hardening.yaml`,
   or it will be silently blocked from all network traffic, including DNS.
+
+## Recover From: A Dead Worker Node Hosting Postgres
+
+Because Postgres uses node-local (`local-path`) storage, if the node it's
+scheduled on becomes permanently unavailable, the PVC cannot simply move to
+another node — the underlying data lives on that node's disk. Recovery options:
+1. If the node can be brought back (reboot, restart from stopped state), do so —
+   Postgres will reschedule there automatically once the node rejoins.
+2. If the node is permanently lost, restore from a backup (not yet automated
+   in this project — see Stretch goals) to a fresh PVC on a healthy node.

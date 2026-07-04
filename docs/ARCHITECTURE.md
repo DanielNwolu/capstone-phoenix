@@ -92,3 +92,18 @@ Secrets, Deployments — is defined in git and reconciled by Argo CD, not applie
 by hand. Argo CD and cert-manager themselves are platform-level installs (done
 once via their upstream install manifests), analogous to how the base OS/kubelet
 aren't part of the app's own GitOps loop.
+
+## Known Limitation: Postgres and Node-Local Storage
+
+k3s's default storage class (`local-path`) provisions PersistentVolumes as
+`hostPath` directories on whichever node the pod is first scheduled to. This
+means Postgres's data survives pod deletion/restart (proven — see EVIDENCE),
+but if the *node* hosting that volume goes down permanently, the data would be
+unavailable until that specific node returns, since the PV cannot be
+rescheduled elsewhere. During the failover demo, draining the worker node
+running Postgres caused a real, brief service interruption while the node was
+cordoned, which resolved immediately upon uncordoning. Backend and frontend
+(both stateless, both HA-replicated) remained schedulable throughout — this is
+precisely why the Stretch goal in the project brief calls out "Multi-replica HA
+Postgres or a managed DB, with a written trade-off analysis" as a further
+improvement beyond Core scope.
