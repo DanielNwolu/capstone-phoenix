@@ -53,21 +53,35 @@ resource "aws_security_group" "capstone_sg" {
   vpc_id      = aws_vpc.capstone_vpc.id
 
   ingress {
-    description = "SSH access"
+    description = "SSH access (admin only)"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.admin_cidr]
   }
 
   ingress {
-    description = "K3s API Server"
+    description = "K3s API Server (admin only)"
     from_port   = 6443
     to_port     = 6443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.admin_cidr]
   }
 
+  ingress {
+    description = "HTTP for Ingress/ACME challenge"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    description = "HTTPS for Ingress"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   ingress {
     description = "Internal Cluster Traffic"
     from_port   = 0
