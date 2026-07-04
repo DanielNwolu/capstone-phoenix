@@ -41,6 +41,14 @@ spec:
       containers:
         - name: backend
           image: ghcr.io/ts-a-devops/taskapp-backend:5d6b8fc
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+            seccompProfile:
+              type: RuntimeDefault
           ports:
             - containerPort: 5000
           env:
@@ -138,6 +146,13 @@ spec:
       containers:
         - name: frontend
           image: ghcr.io/ts-a-devops/taskapp-frontend:26da2b0
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+              add: ["NET_BIND_SERVICE"]
+            seccompProfile:
+              type: RuntimeDefault
           ports:
             - containerPort: 80
           resources:
