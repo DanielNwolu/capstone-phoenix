@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ghcr.io/ts-a-devops/taskapp_backend_cicd:26da2b0
+          image: ghcr.io/ts-a-devops/taskapp-backend:26da2b0@sha256:05a9b78302a07d572f40814b659e7fe738c9dc87d6e1a01372cad8c42d7273d
           ports:
             - containerPort: 5000
           env:
@@ -75,6 +75,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ghcr.io/ts-a-devops/taskapp_frontend_cicd:26da2b0
+          image: ghcr.io/ts-a-devops/taskapp-frontend:26da2b0@sha256:05a9b78302a07d572f40814b659e7fe738c9dc87d6e1a01372cad8c42d7273d
           ports:
             - containerPort: 80
