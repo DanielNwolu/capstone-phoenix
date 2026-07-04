@@ -1,0 +1,27 @@
+---
+- name: Configure K3s Control Plane
+  hosts: control_plane
+  become: true
+  tasks:
+    - name: Download and install K3s on Control Plane
+      shell: curl -sfL https://get.k3s.io | sh -
+      args:
+        creates: /usr/local/bin/k3s
+
+    - name: Get K3s Node Token
+      slurp:
+        src: /var/lib/rancher/k3s/server/node-token
+      register: node_token_encoded
+
+    - name: Save Node Token as a fact
+      set_fact:
+        k3s_token: "{{ node_token_encoded.content | b64decode | trim }}"
+
+- name: Configure K3s Workers
+  hosts: workers
+  become: true
+  tasks:
+    - name: Join Workers to the K3s Cluster
+      shell: "curl -sfL https://get.k3s.io | K3S_URL=https://{{ hostvars[groups['control_plane'][0]]['inventory_hostname'] }}:6443 K3S_TOKEN={{ hostvars[groups['control_plane'][0]]['k3s_token'] }} sh -"
+      args:
+        creates: /usr/local/bin/k3s-agent-uninstall.sh
